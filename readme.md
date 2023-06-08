@@ -1,73 +1,64 @@
-# Microcontroller-based Lap Timer using Light Sensors
+# Timer/Counter Program
 
-This repository contains the code for a microcontroller-based lap timer system that utilizes light sensors to accurately measure the lap times of model cars on three different tracks (A, B, and C). The system is designed to be used with microcontrollers like Arduino and provides additional features such as last lap detection, lap count, and a display to show the winner.
+This is a timer/counter program for Arduino Uno. It utilizes buttons as inputs, a buzzer as an indicator, and an LCD I2C 1602 display to provide user interface and display functionality. The program allows you to start, lap, and stop the timer/counter, and it calculates the shortest total time recorded.
 
 ## Hardware Requirements
 
-To use this lap timer system, you will need the following components:
+To run this program, you will need the following hardware components:
 
-- Microcontroller board (such as Arduino or a compatible board)
-- Light sensors (to be connected to pins 2, 3, and 4 for tracks A, B, and C respectively)
-- Reset/Stop button (to be connected to pin 5)
-- Last Lap button (to be connected to pin 6)
-- Buzzer (to be connected to pin 7)
-- LiquidCrystal_I2C library and a compatible LCD (with I2C address 0x27)
+- Arduino Uno board
+- 4 buttons (A, B, C, L)
+- Buzzer
+- LCD I2C 1602 display
 
-## Software Requirements
+## Wiring Instructions
 
-To program and run the lap timer system, you will need:
+Please follow these wiring instructions to connect the hardware components to the Arduino Uno:
 
-- Arduino IDE (or any compatible development environment)
-- Wire library (included with the Arduino IDE)
-- LiquidCrystal_I2C library (can be installed from the Arduino Library Manager)
+- Connect the A button to pin 2
+- Connect the B button to pin 3
+- Connect the C button to pin 4
+- Connect the L button to pin 5
+- Connect the buzzer to pin 6
+- Connect the SDA pin of the LCD I2C module to the SDA pin of the Arduino Uno (A4)
+- Connect the SCL pin of the LCD I2C module to the SCL pin of the Arduino Uno (A5)
 
-## Circuit Connection
+## Libraries Required
 
-Before running the lap timer system, make sure to connect the hardware components correctly to your microcontroller. Here's the recommended circuit connection:
+This program utilizes the following libraries:
 
-1. Connect the light sensors to the appropriate pins on the microcontroller:
-   - Track A: Connect the light sensor to pin 2.
-   - Track B: Connect the light sensor to pin 3.
-   - Track C: Connect the light sensor to pin 4.
+- Wire.h (for I2C communication)
+- LiquidCrystal_I2C.h (for controlling the LCD display)
 
-2. Connect the Reset/Stop button to pin 5 and the Last Lap button to pin 6.
+Make sure you have these libraries installed in your Arduino IDE before uploading the program.
 
-3. Connect the buzzer to pin 7.
+## Program Flowchart
 
-4. Connect the LCD display using the I2C interface, ensuring that the I2C address is set to 0x27.
+The program follows the flowchart shown below:
+
+```mermaid
+flowchart TD
+   1[A, B, C pressed] -->|Get timer/counter status| 2
+   2[Timer/counter status] -->|Is the timer/counter running?| 3
+   3 -->|Yes| 4[Get L status]
+   3 -->|No| 5[Return A, B, C buttons as start button]
+   4[L button enabled?] -->|Yes| 6[Return A, B, C buttons as stop button]
+   4[L button enabled?] -->|No| 7[Return A, B, C buttons as lap button]
+```
 
 ## Usage
 
-To use the lap timer system, follow these steps:
-
-1. Open the `lap_timer.ino` file in the Arduino IDE.
-
-2. If you haven't already, install the required libraries (Wire and LiquidCrystal_I2C) using the Arduino Library Manager.
-
-3. Select the appropriate board and port in the Arduino IDE.
-
-4. Upload the code to the microcontroller.
-
-5. Power on the circuit and observe the LCD display.
-
-6. Place the light sensors on the start/finish lines of each track.
-
-7. Press the Last Lap button to trigger the detection of the last lap.
-
-8. Press the Reset/Stop button to reset the lap times and lap counts.
-
-9. The LCD display will show the winner and lap statistics based on the fastest lap time achieved by any of the tracks.
-
-10. The buzzer will emit tones when a lap is completed and when the winner is determined.
+1. Connect the hardware components as per the wiring instructions mentioned above.
+2. Open the Arduino IDE and upload the program to your Arduino Uno.
+3. Power on the Arduino Uno.
+4. The LCD display will show "Ready" as the initial status.
+5. Press A, B, or C buttons to start the timer/counter.
+6. While the timer/counter is running, press A, B, or C buttons to record a lap.
+7. Press the L button to change the function of A, B, and C buttons to stop.
+8. When stopped, the LCD display will show the fastest button, lap count, and total time.
+9. Repeat the process to start a new timer/counter session.
 
 ## Notes
 
-- Make sure to adjust the debounce delays (`delay(50)`) if necessary to avoid false triggering of the buttons.
-
-- The code assumes that the light sensors are connected to the microcontroller's falling edge interrupt pins. If you have different requirements, modify the code accordingly.
-
-- Feel free to customize the code to suit your specific needs or add additional functionality as desired.
-
-## Contributions
-
-Contributions to this project are welcome! If you encounter any issues or have suggestions for improvements, please feel free to open an issue or submit a pull request.
+- Make sure to adjust the pin numbers in the code according to your actual wiring.
+- Please review and test the code thoroughly before deploying it in your project.
