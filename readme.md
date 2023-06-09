@@ -38,8 +38,7 @@ The program follows the flowchart shown below:
 
 ```mermaid
 flowchart TD
-   1[A, B, C pressed] -->|Get timer/counter status| 2
-   2[Timer/counter status] -->|Is the timer/counter running?| 3
+   1[A, B, C pressed] -->|Is the timer/counter running?| 3[get timer/counter status]
    3 -->|Yes| 4[Get L status]
    3 -->|No| 5[Return A, B, C buttons as start button]
    4[L button enabled?] -->|Yes| 6[Return A, B, C buttons as stop button]
